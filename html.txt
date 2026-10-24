@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jessie Math捷析  - 母體淨化率</title>
+    
+    <meta name="description" content="© 2025–2026 Jessie Math 捷析老師. All rights reserved.">
+    <meta property="og:title" content="Jessie Math捷析 - 母體淨化率">
+    <meta property="og:description" content="© 2025–2026 Jessie Math 捷析老師. All rights reserved.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="g5-u18-2.png">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="1536">
+    <meta property="og:image:alt" content="Jessie Math 遊戲封面">
+    <link rel="image_src" href="g5-u18-2.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Jessie Math捷析 - 母體淨化率">
+    <meta name="twitter:description" content="© 2025–2026 Jessie Math 捷析老師. All rights reserved.">
+    <meta name="twitter:image" content="g5-u18-2.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+
+        :root {
+            --primary-purple: #8a2be2;
+            --dark-bg: #0f0518;
+            --glass-bg: rgba(30, 10, 50, 0.6);
+            --glow-color: rgba(138, 43, 226, 0.8);
+            --text-light: #e0d4ff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--dark-bg);
+            background-image: url('jessie-logo-play.jpg');
+            background-size: cover;
+            background-position: top left;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: white;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* 增加：確保在白板模式下仍保有適合的游標顯示 */
+        body.whiteboard-active { cursor: crosshair; }
+        body.whiteboard-active input, 
+        body.whiteboard-active button, 
+        body.whiteboard-active select, 
+        body.whiteboard-active .zone-card, 
+        body.whiteboard-active .grid-cell, 
+        body.whiteboard-active a,
+        body.whiteboard-active .sound-toggle { cursor: pointer; }
+        body.whiteboard-active input[type="text"], 
+        body.whiteboard-active input[type="number"] { cursor: text; }
+
+        /* Hero 區塊 */
+        .hero-header {
+            background-color: #ffffff;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 100;
+        }
+
+        .brand-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar-ring {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid #e67e22;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-color: transparent;
+        }
+
+        .avatar-ring img {
+            width: 90%;
+            height: 90%;
+            object-fit: contain;
+        }
+
+        .brand-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a2b4c;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-outline-blue {
+            background-color: #fff;
+            color: #3b5998;
+            border: 1px solid #3b5998;
+        }
+        .btn-outline-blue:hover { background-color: #f0f4f8; }
+
+        .btn-outline-purple {
+            background-color: #f8f4ff;
+            color: #7b2cbf;
+            border: 1px solid #7b2cbf;
+        }
+
+        /* 遊戲主要背景 */
+        .game-container {
+            position: relative;
+            height: calc(100vh - 70px);
+            background: radial-gradient(circle at center, rgba(42, 10, 74, 0.75) 0%, rgba(15, 5, 24, 0.9) 100%);
+            overflow: hidden;
+        }
+
+        /* --- 新增特效 CSS 開始 --- */
+        
+        /* 煙霧特效 */
+        .smoke-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.35;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(138, 43, 226, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+            animation: smokeDrift 15s infinite alternate ease-in-out;
+            filter: blur(20px);
+        }
+
+        @keyframes smokeDrift {
+            0% { transform: scale(1) translate(0%, 0%); opacity: 0.3; }
+            50% { transform: scale(1.1) translate(2%, 3%); opacity: 0.5; }
+            100% { transform: scale(1.2) translate(-2%, -2%); opacity: 0.3; }
+        }
+
+        /* 震動與模糊特效 (答錯時) */
+        @keyframes shakeBlur {
+            0% { transform: translate(0, 0) rotate(0deg); filter: blur(0px); }
+            15% { transform: translate(-8px, 6px) rotate(-2deg); filter: blur(3px); }
+            30% { transform: translate(8px, -6px) rotate(2deg); filter: blur(4px); box-shadow: 0 0 30px rgba(255,0,85,0.5); border-color: #ff0055;}
+            45% { transform: translate(-8px, -6px) rotate(-2deg); filter: blur(2px); }
+            60% { transform: translate(6px, 6px) rotate(1deg); filter: blur(1px); }
+            75% { transform: translate(-4px, 4px) rotate(-1deg); filter: blur(0px); }
+            100% { transform: translate(0, 0) rotate(0deg); filter: blur(0px); }
+        }
+        .error-shake {
+            animation: shakeBlur 0.5s ease-in-out;
+        }
+
+        /* 成功發光特效 (答對時) */
+        @keyframes successPulse {
+            0% { box-shadow: 0 0 30px rgba(0,0,0,0.5), 0 0 20px inset rgba(138, 43, 226, 0.2); transform: scale(1); }
+            40% { box-shadow: 0 0 60px rgba(0,255,255,0.8), 0 0 50px inset rgba(0, 255, 255, 0.5); transform: scale(1.02); border-color: #00ffff;}
+            100% { box-shadow: 0 0 30px rgba(0,0,0,0.5), 0 0 20px inset rgba(138, 43, 226, 0.2); transform: scale(1); }
+        }
+        .success-pulse {
+            animation: successPulse 0.8s ease-out;
+        }
+        /* --- 新增特效 CSS 結束 --- */
+
+        /* 懸浮幾何碎片與軌道環特效 */
+        .orbit-ring {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) rotate(75deg);
+            width: 120vw; height: 40vw;
+            border: 2px solid rgba(138, 43, 226, 0.2);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.1) inset;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .orbit-ring::after {
+            content: ''; position: absolute;
+            top: -2px; left: 50%; width: 50px; height: 4px;
+            background: #00ffff; box-shadow: 0 0 15px #00ffff;
+            animation: orbitAnim 10s linear infinite;
+        }
+
+        @keyframes orbitAnim {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            100% { transform: translateX(-50%) rotate(360deg); }
+        }
+
+        /* 共用介面容器 */
+        .screen {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: none; flex-direction: column; align-items: center; justify-content: flex-start; z-index: 10;
+            padding-top: 25px; 
+        }
+        .screen.active { display: flex; }
+
+        /* 玻璃面板 */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px 30px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5), 0 0 20px inset rgba(138, 43, 226, 0.2);
+            width: 90%; 
+            max-width: 950px;
+            height: 78vh;
+            max-height: 80vh; 
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            transition: transform 0.1s, box-shadow 0.1s, border-color 0.1s; /* 協助特效平滑過渡 */
+        }
+
+        /* 自訂捲軸樣式 */
+        .glass-panel::-webkit-scrollbar { width: 6px; }
+        .glass-panel::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
+        .glass-panel::-webkit-scrollbar-thumb { background: rgba(0, 255, 255, 0.4); border-radius: 10px; }
+
+        /* 第一頁：登入與排行榜 */
+        .home-grid {
+            display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 20px; width: 100%;
+            flex: 1; overflow: hidden; 
+        }
+        .title-glitch {
+            font-size: 2.2em; color: #fff;
+            text-shadow: 0 0 10px var(--primary-purple), 0 0 20px var(--primary-purple);
+            margin-top: 0; margin-bottom: 15px; text-align: center;
+        }
+
+        .input-group { margin-bottom: 15px; }
+        .input-group input {
+            width: 100%; padding: 10px; border-radius: 8px;
+            border: 1px solid var(--primary-purple);
+            background: rgba(0,0,0,0.5); color: #fff; font-size: 1.1em;
+            box-sizing: border-box; outline: none; text-align: center;
+        }
+        .input-group input:focus { box-shadow: 0 0 15px var(--primary-purple); }
+
+        .fraction-input-group {
+            display: flex; flex-direction: column; align-items: center; justify-content: center; width: 80px;
+        }
+        .fraction-input-group input {
+            width: 60px; text-align: center; padding: 5px;
+            background: rgba(0,0,0,0.5); color: #00ffff;
+            border: 1px solid #00ffff; border-radius: 5px; font-size: 1.2em; outline: none;
+        }
+        .fraction-input-group hr {
+            width: 100%; border: none; border-top: 2px solid #00ffff; margin: 8px 0;
+        }
+
+        .frac-inline {
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            vertical-align: middle;
+            margin: 0 5px;
+            font-size: 0.9em;
+            line-height: 1.2;
+        }
+        .frac-inline span { display: block; padding: 0 2px; }
+        .frac-inline span:first-child { border-bottom: 2px solid currentColor; }
+
+        .btn-sci-fi {
+            background: linear-gradient(45deg, #4b0082, #8a2be2);
+            border: none; padding: 10px 20px; border-radius: 8px;
+            color: white; font-size: 1.1em; cursor: pointer;
+            text-transform: uppercase; letter-spacing: 2px;
+            box-shadow: 0 0 15px var(--glow-color); transition: 0.3s; width: 100%;
+        }
+        .btn-sci-fi:hover { box-shadow: 0 0 25px #00ffff; transform: scale(1.02); }
+
+        .rules-box { font-size: 0.9em; line-height: 1.4; color: var(--text-light); }
+        .rules-box ul { margin: 8px 0; padding-left: 20px; }
+        .rules-box li { margin-bottom: 4px; }
+        
+        .leaderboard { overflow: hidden; }
+        .leaderboard table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9em; }
+        .leaderboard th { border-bottom: 2px solid var(--primary-purple); padding: 8px; color: #00ffff; }
+        .leaderboard td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .rank-icon { font-size: 1.2em; }
+
+        /* 遊戲主要控制列 */
+        .game-controls {
+            position: absolute; top: 20px; left: 20px; right: 20px;
+            display: flex; justify-content: space-between; align-items: flex-start;
+            z-index: 80; pointer-events: none;
+        }
+        .ctrl-group { display: flex; gap: 10px; align-items: center; pointer-events: auto; }
+        .ctrl-btn {
+            background: rgba(0, 0, 0, 0.6); border: 1px solid #00ffff;
+            color: #00ffff; padding: 6px 12px; border-radius: 5px; cursor: pointer;
+            font-family: 'Noto Sans TC'; backdrop-filter: blur(5px); transition: 0.2s;
+        }
+        .ctrl-btn:hover { background: #00ffff; color: #000; }
+
+        .sound-toggle {
+            position: absolute; bottom: 90px; left: 20px;
+            font-size: 2em; cursor: pointer; z-index: 80; color: #fff; text-shadow: 0 0 10px var(--primary-purple);
+        }
+
+        input, select, button, .zone-card, .grid-cell {
+            position: relative;
+            z-index: 75; 
+        }
+
+        /* 遮罩/白板/回饋 */
+        .overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 90; display: none;
+            justify-content: center; align-items: center; flex-direction: column; backdrop-filter: blur(10px);
+        }
+        .overlay h2 { font-size: 2.2em; color: #00ffff; text-shadow: 0 0 20px #00ffff; margin-bottom: 15px; text-align: center; }
+        #feedbackOverlay { z-index: 100; }
+        #fb-desc { font-size: 1em; text-align: center; line-height: 1.5; margin-bottom: 20px; max-height: 60vh; overflow-y: auto; padding: 0 15px; width: 100%; box-sizing: border-box; }
+        #fb-desc::-webkit-scrollbar { width: 5px; }
+        #fb-desc::-webkit-scrollbar-thumb { background: rgba(0,255,255,0.5); border-radius: 5px; }
+        
+        #whiteboard-canvas {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.05); z-index: 70; display: none;
+            pointer-events: none;
+        }
+
+        /* 小數字鍵盤 */
+        .keypad-container {
+            position: fixed; bottom: 90px; right: 20px; 
+            background: rgba(15, 5, 24, 0.95);
+            border: 2px solid var(--primary-purple);
+            border-radius: 10px; padding: 15px;
+            display: none; grid-template-columns: repeat(3, 1fr); gap: 8px;
+            z-index: 1000; box-shadow: 0 0 20px var(--glow-color);
+            width: 250px;
+        }
+        .keypad-btn {
+            background: rgba(138, 43, 226, 0.3); color: #fff;
+            border: 1px solid #00ffff; border-radius: 5px;
+            font-size: 1.5em; padding: 10px; cursor: pointer;
+            transition: 0.2s; user-select: none;
+        }
+        .keypad-btn:active { background: #00ffff; color: #000; }
+        .keypad-btn.action { background: rgba(255, 0, 85, 0.3); }
+        .keypad-header { grid-column: span 3; display:flex; justify-content: space-between; align-items:center; color:#00ffff; margin-bottom:5px; font-weight: bold;}
+        .keypad-close { background:none; border:none; color:#ff0055; font-size:1.5em; cursor:pointer;}
+
+        /* 關卡通用樣式 */
+        .level-container { 
+            text-align: center; width: 100%; height: 100%; 
+            display: flex; flex-direction: column; align-items: center; 
+        }
+        .task-title { color: #00ffff; font-size: 1.6em; margin-bottom: 10px; text-shadow: 0 0 10px rgba(0,255,255,0.5); }
+        .energy-bar { width: 100%; height: 15px; background: #222; border-radius: 10px; margin-top: 15px; overflow: hidden; border: 1px solid var(--primary-purple);}
+        .energy-fill { height: 100%; background: linear-gradient(90deg, #8a2be2, #00ffff); width: 0%; transition: width 0.5s; }
+
+        /* 關卡特效與元件 */
+        .grid-dynamic { display: grid; gap: 2px; justify-content: center; margin: 15px auto; }
+        .grid-cell { width: 30px; height: 30px; background: rgba(255,255,255,0.1); border: 1px solid #444; cursor: pointer; transition: 0.2s; }
+        .grid-cell.active { background: #00ffff; box-shadow: 0 0 10px #00ffff; border-color: #fff; }
+
+        .crystal-area { display: flex; justify-content: center; gap: 30px; margin: 20px 0; align-items: center;}
+        .crystal { width: 70px; height: 70px; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); background: #555; display: flex; align-items: center; justify-content: center; font-size: 1.1em; font-weight: bold; flex-direction: column;}
+        .crystal.pure { background: linear-gradient(135deg, #00ffff, #fff); color: #000; box-shadow: 0 0 30px #00ffff; }
+        .crystal.impure { background: linear-gradient(135deg, #8a2be2, #444); color: white;}
+        .crystal.total { background: linear-gradient(135deg, #f39c12, #f1c40f); color: #000; box-shadow: 0 0 20px #f39c12; }
+
+        .zone-card {
+            background: rgba(0,0,0,0.5); border: 2px solid #555; border-radius: 8px; cursor: pointer; transition: 0.3s; box-sizing: border-box;
+        }
+        .zone-card.selected { border-color: #00ffff; box-shadow: 0 0 20px inset rgba(0, 255, 255, 0.3); }
+        .zone-card h3 { color: #fff;}
+        .zone-card p { color: #ccc;}
+
+        .badge-img { width: 120px; margin: 15px auto; border-radius: 50%; box-shadow: 0 0 30px #ffd700; display: block; }
+        input[type="range"] { width: 80%; cursor: pointer; accent-color: #00ffff; }
+        .rounding-hint { color: #ff0055; font-size: 0.85em; margin-top: 5px; font-weight: bold; }
+
+        /* ------------------ 子彈型 Footer 樣式 ------------------ */
+        footer {
+            position: fixed; bottom: 10px; width: 100%;
+            display: flex; justify-content: center; z-index: 100;
+            pointer-events: none;
+        }
+        .footer-pill {
+            background: rgba(15, 5, 24, 0.85);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            border-radius: 50px;
+            padding: 8px 20px;
+            display: flex; gap: 20px; align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            color: var(--text-light); font-size: 0.85em;
+            pointer-events: auto;
+            flex-wrap: wrap; justify-content: center;
+        }
+        .footer-left, .footer-right { display: flex; align-items: center; gap: 10px; }
+        .footer-dot { width: 8px; height: 8px; background: #00ffff; border-radius: 50%; box-shadow: 0 0 8px #00ffff;}
+        .footer-icon { color: #ffd700; font-size: 1.1em;}
+
+        /* ------------------ RWD 響應式 & 旋轉提示 ------------------ */
+        #rotate-device-overlay {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #0f0518; color: #00ffff;
+            z-index: 999999; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; font-size: 1.5em; padding: 20px; box-sizing: border-box;
+        }
+        @keyframes rotatePhone { 
+            0% { transform: rotate(0deg); } 
+            50% { transform: rotate(90deg); } 
+            100% { transform: rotate(0deg); } 
+        }
+
+        @media screen and (max-width: 900px) {
+            .home-grid { grid-template-columns: 1fr; }
+            .glass-panel { width: 95%; padding: 15px; }
+            .hero-header { padding: 0 15px; }
+            .brand-text { font-size: 18px; }
+            .nav-buttons { gap: 5px; }
+            .nav-btn { padding: 5px 10px; font-size: 12px; }
+            .keypad-container { bottom: 70px; right: 10px; transform: scale(0.85); transform-origin: bottom right; }
+            .crystal-area { gap: 15px; }
+            .crystal { width: 60px; height: 60px; font-size: 1em; }
+        }
+
+        @media screen and (max-width: 767px) and (orientation: portrait) {
+            #rotate-device-overlay { display: flex; }
+            .hero-header, .game-container, footer { display: none !important; }
+        }
+
+        @media screen and (max-height: 400px) {
+            .footer-pill { padding: 5px 15px; font-size: 0.75em; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="rotate-device-overlay">
+        <i class="fas fa-mobile-alt" style="font-size: 3em; margin-bottom: 20px; animation: rotatePhone 2s infinite ease-in-out;"></i>
+        <p>請將設備轉為橫向以獲得最佳遊戲體驗 📱<br><span style="font-size: 0.7em; color:#aaa;">Please rotate your device</span></p>
+    </div>
+
+    <header class="hero-header">
+        <div class="brand-area">
+            <div class="avatar-ring">
+                <img src="JESSIEMATH-Q.png" alt="Jessie Math" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><circle cx=\'25\' cy=\'25\' r=\'25\' fill=\'#ccc\'/></svg>'">
+            </div>
+            <div class="brand-text">Jessie Math捷析</div>
+        </div>
+        <div class="nav-buttons">
+            <a href="https://jessiemath0703-chu.github.io/website2/" class="nav-btn btn-outline-blue">🏠 首頁</a>
+            <a href="https://jessiemath0703-chu.github.io/Game-Lobby/" class="nav-btn btn-outline-blue">🎮 遊戲大廳</a>
+            <a href="https://jessiemath0703-chu.github.io/Game-Lobby/#g5-u18" class="nav-btn btn-outline-purple">🔙 G5比率與百分率</a>
+        </div>
+    </header>
+
+    <div class="game-container">
+        <div class="smoke-overlay"></div>
+        <div class="orbit-ring"></div>
+        <div class="orbit-ring" style="transform: translate(-50%, -50%) rotate(-45deg); width: 80vw; height: 80vw; opacity: 0.5;"></div>
+
+        <div class="sound-toggle" id="soundToggle" onclick="toggleSound()">🔊</div>
+        <audio id="bgMusic" src="1.mp3" loop preload="auto"></audio>
+
+        <div class="game-controls" id="gameControls" style="display: none;">
+            <div class="ctrl-group">
+                <button class="ctrl-btn" onclick="togglePause()">暫停</button>
+                <button class="ctrl-btn" onclick="restartGame()">重來</button>
+                <div id="timerDisplay" style="color: #00ffff; font-size: 1.5em; font-weight: bold; text-shadow: 0 0 10px #00ffff; margin-left: 15px; line-height: 1.2;">05:00</div>
+            </div>
+            
+            <div style="position: absolute; left: 50%; transform: translateX(-50%); pointer-events: none;">
+                <div id="correctIconsDisplay" style="display: flex; gap: 5px; justify-content: center; margin-top: 5px; font-size: 1.2em;"></div>
+            </div>
+
+            <div class="ctrl-group">
+                <button class="ctrl-btn" onclick="goToMenu()">回主選單</button>
+                <button class="ctrl-btn" onclick="toggleWhiteboard()">白板</button>
+                <button class="ctrl-btn" onclick="toggleKeypad()">小鍵盤</button>
+            </div>
+        </div>
+
+        <div class="overlay" id="pauseOverlay">
+            <h2>系統暫停中 (防窺模式)</h2>
+            <button class="btn-sci-fi" style="width:auto; margin-top: 20px;" onclick="togglePause()">恢復運行</button>
+        </div>
+        
+        <div class="overlay" id="feedbackOverlay">
+            <h2 id="fb-title">淨化成功！</h2>
+            <div id="fb-desc">獲得能量點數...</div>
+            <button class="btn-sci-fi" id="fb-btn" style="width:auto; display:none;"></button>
+        </div>
+
+        <canvas id="whiteboard-canvas"></canvas>
+
+        <div class="screen active" id="screen-login">
+            <div class="glass-panel">
+                <h1 class="title-glitch">🎮 母體淨化率</h1>
+                <div class="home-grid">
+                    <div class="left-panel">
+                        <div class="rules-box">
+                            <h3 style="color:#00ffff; margin-top:0;">任務說明 (G5 比率與百分率)</h3>
+                            <p style="margin:5px 0;">特工，暗影母體正在擴散，你必須在 <strong style="color:#ff0055;">5 分鐘內</strong> 利用數學運算來淨化核心！</p>
+                            <ul>
+                                <li>每局共 10 道隨機防線。兩階段，每階五關，題型順序隨機洗牌，且<strong>題目數值將無限產生</strong>。</li>
+                                <li><strong>過關條件：</strong>總分為 1000 分，在時間內獲得 <strong style="color:#ffd700;">500 分以上</strong> 即可成功過關！</li>
+                                <li><strong>快捷鍵支援：</strong>作答完成後可直接按下 <strong>Enter 鍵</strong> 送出答案。</li>
+                                <li>題型包含：多重情境掃描判定、光譜覆蓋率、比例配方、<strong>六種急速光譜轉換</strong>及多區防禦分析。</li>
+                                <li><strong>注意：</strong>若「分數轉小數或百分率」無法整除，一律採用「四捨五入取概數至小數第二位」。</li>
+                            </ul>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="playerName" placeholder="請強制輸入特工代號..." required>
+                        </div>
+                        <button class="btn-sci-fi" onclick="startGame()">啟動淨化程序</button>
+                    </div>
+                    <div class="right-panel">
+                        <div class="leaderboard">
+                            <h3 style="color:#00ffff; margin-top:0;">🏆 淨化者排行榜 (Top 5)</h3>
+                            <table id="leaderboardTable">
+                                <thead>
+                                    <tr>
+                                        <th>名次</th><th>玩家</th><th>分數</th><th>狀態</th><th>日期</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen" id="screen-game">
+            <div class="glass-panel" style="position:relative; z-index: 15;">
+                <div id="level-content" class="level-container"></div>
+            </div>
+        </div>
+
+        <div class="screen" id="screen-result">
+            <div class="glass-panel" style="text-align: center;">
+                <h1 class="title-glitch" id="resultTitle">核心淨化完成！</h1>
+                <h2 style="color: #00ffff; margin-bottom: 10px;" id="finalScoreText"></h2>
+                
+                <div id="resultContent"></div>
+
+                <div id="resultButtons" style="margin-top: 15px; display: flex; gap: 15px; justify-content: center;"></div>
+            </div>
+        </div>
+
+        <div class="keypad-container" id="virtualKeypad">
+            <div class="keypad-header">
+                <span>數值輸入小鍵盤</span>
+                <button class="keypad-close" onclick="toggleKeypad()">✖</button>
+            </div>
+            <button class="keypad-btn" onclick="keypadInput('7')">7</button>
+            <button class="keypad-btn" onclick="keypadInput('8')">8</button>
+            <button class="keypad-btn" onclick="keypadInput('9')">9</button>
+            <button class="keypad-btn" onclick="keypadInput('4')">4</button>
+            <button class="keypad-btn" onclick="keypadInput('5')">5</button>
+            <button class="keypad-btn" onclick="keypadInput('6')">6</button>
+            <button class="keypad-btn" onclick="keypadInput('1')">1</button>
+            <button class="keypad-btn" onclick="keypadInput('2')">2</button>
+            <button class="keypad-btn" onclick="keypadInput('3')">3</button>
+            <button class="keypad-btn" onclick="keypadInput('0')">0</button>
+            <button class="keypad-btn" onclick="keypadInput('.')">.</button>
+            <button class="keypad-btn action" onclick="keypadAction('del')">Del</button>
+            <button class="keypad-btn action" style="grid-column: span 3;" onclick="keypadAction('enter')">Enter (送出)</button>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="footer-pill">
+            <div class="footer-left">
+                <div class="footer-dot" aria-hidden="true"></div>
+                <div class="footer-copy">© 2025–2026 Jessie Math 捷析老師. All rights reserved.</div>
+            </div>
+            <div class="footer-right">
+                <div class="footer-icon" aria-hidden="true"><i class="fas fa-compass"></i></div>
+                <div class="footer-tagline">數學不迷路，捷析Jessie帶你走向理解。</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* ================= 遊戲核心變數 ================= */
+        let playerName = "";
+        let currentLevel = 1;
+        let score = 0;
+        let isPaused = false;
+        let isWhiteboardOn = false;
+        let soundEnabled = true;
+
+        let timeLeft = 300; // 5分鐘
+        let timerInterval;
+
+        let gameConfig = { sequence: [] };
+
+        /* ================= 觸發面板特效函式 ================= */
+        // 負責觸發玻璃面板的震動或發光特效
+        function triggerPanelEffect(effectClass, duration) {
+            const activePanel = document.querySelector('.screen.active .glass-panel');
+            if(activePanel) {
+                // 重置特效以確保可重複觸發
+                activePanel.classList.remove('error-shake', 'success-pulse');
+                void activePanel.offsetWidth; // 強制重繪
+                activePanel.classList.add(effectClass);
+                setTimeout(() => {
+                    if(activePanel) activePanel.classList.remove(effectClass);
+                }, duration);
+            }
+        }
+
+        /* ================= 擴充題型主題 ================= */
+        const themesT1 = [
+            { title: "污染掃描站", T_name: "總粒子", P_name: "污染粒子", N_name: "正常粒子", unit: "個" },
+            { title: "全校視力檢查", T_name: "全校總人數", P_name: "近視人數", N_name: "視力正常", unit: "人" },
+            { title: "籃球特訓", T_name: "投球總數", P_name: "進球數", N_name: "未進球數", unit: "球" },
+            { title: "牙齒健康檢查", T_name: "檢查總人數", P_name: "齲齒人數", N_name: "牙齒健康人數", unit: "人" },
+            { title: "糖果口味統計", T_name: "糖果總數", P_name: "草莓糖", N_name: "其他口味", unit: "顆" },
+            { title: "賣場客群分析", T_name: "顧客總數", P_name: "女性顧客", N_name: "男性顧客", unit: "人" },
+            { title: "射氣球遊戲", T_name: "射擊總數", P_name: "射中數量", N_name: "未射中數量", unit: "次" },
+            { title: "公司招考", T_name: "報名人數", P_name: "錄取人數", N_name: "未錄取人數", unit: "人" },
+            { title: "血型統計", T_name: "受檢總人數", P_name: "O型人數", N_name: "其他血型人數", unit: "人" }
+        ];
+
+        const themesT2 = [
+            { title: "光譜覆蓋率", desc: "能量區塊" },
+            { title: "太陽能板修復", desc: "發電面板" },
+            { title: "防護罩啟動區", desc: "護盾單元" },
+            { title: "記憶體磁區修復", desc: "損壞磁區" }
+        ];
+
+        const themesT3 = [
+            { title: "鮮奶茶特調", p_name: "鮮奶", i_name: "茶", t_name: "總容量", unit: "毫升" },
+            { title: "果汁特調", p_name: "果汁原汁", i_name: "水", t_name: "總容量", unit: "毫升" },
+            { title: "麵團製作", p_name: "麵粉", i_name: "水", t_name: "總重量", unit: "公克" },
+            { title: "咖啡牛奶", p_name: "牛奶", i_name: "咖啡", t_name: "總容量", unit: "毫升" },
+            { title: "糖水調配", p_name: "糖", i_name: "水", t_name: "總重量", unit: "公克" },
+            { title: "純度配方室", p_name: "純晶體", i_name: "雜質", t_name: "總量", unit: "單位" },
+            { title: "男女員工比例", p_name: "女性員工", i_name: "男性員工", t_name: "總人數", unit: "人" }
+        ];
+
+        const themesT5 = [
+            { title: "區域防禦分析", z_name: "區", prop: "正常率", n_name:"正常", desc:"正常率「最高（含並列）」的區域進行防禦" },
+            { title: "各班出席率大比拚", z_name: "班", prop: "出席率", n_name:"出席", desc:"出席率「最高（含並列）」的班級進行表揚" },
+            { title: "賣場折扣戰", z_name: "店", prop: "折扣比例", n_name:"折扣品", desc:"折扣品比例「最高（含並列）」的店家進行採購" },
+            { title: "各班近視比率調查", z_name: "班", prop: "近視率", n_name:"近視人數", desc:"近視率「最高（含並列）」的班級進行衛教" },
+            { title: "村長得票率", z_name: "號候選人", prop: "得票率", n_name:"得票數", desc:"得票率「最高（含並列）」的候選人當選" },
+            { title: "球隊女生比率", z_name: "隊", prop: "女生比率", n_name:"女生人數", desc:"女生比率「最高（含並列）」的球隊進行表揚" },
+            { title: "圖書館藏書分析", z_name: "類別", prop: "藏書比率", n_name:"書籍數量", desc:"藏書比率「最高（含並列）」的類別優先擴建" },
+            { title: "零用錢支出占比", z_name: "項目", prop: "支出占比", n_name:"花費金額", desc:"支出占比「最高（含並列）」的項目進行節流" }
+        ];
+
+        /* ================= 全域 Enter 鍵支援 ================= */
+        document.addEventListener('keydown', function(e) {
+            if(e.key === 'Enter') {
+                const loginScreen = document.getElementById('screen-login');
+                const gameScreen = document.getElementById('screen-game');
+                const overlay = document.getElementById('feedbackOverlay');
+
+                if (loginScreen.classList.contains('active')) {
+                    startGame();
+                } else if (gameScreen.classList.contains('active') && !isPaused) {
+                    if (overlay.style.display === 'flex') {
+                        const btn = document.getElementById('fb-btn');
+                        if (btn && btn.style.display !== 'none') btn.click();
+                    } else {
+                        keypadAction('enter');
+                    }
+                }
+            }
+        });
+
+        /* ================= 音效與工具 ================= */
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (!soundEnabled) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            if (type === 'success') {
+                osc.type = 'sine'; osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.5, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'error') {
+                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.3);
+                gain.gain.setValueAtTime(0.5, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('soundToggle').innerText = soundEnabled ? '🔊' : '🔇';
+            
+            // 處理背景音樂開關
+            const bgm = document.getElementById('bgMusic');
+            if (soundEnabled) {
+                // 如果目前不在登入畫面，代表遊戲進行中，可以直接嘗試播放
+                const loginScreen = document.getElementById('screen-login');
+                if (!loginScreen.classList.contains('active')) {
+                    bgm.play().catch(e => console.log('BGM Autoplay blocked'));
+                }
+            } else {
+                bgm.pause();
+            }
+        }
+
+        function shuffleArray(array) {
+            let arr = array.slice();
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function gcd(a, b) {
+            return b ? gcd(b, a % b) : a;
+        }
+
+        function rand(arr) {
+            return arr[Math.floor(Math.random()*arr.length)];
+        }
+
+        /* ================= 小鍵盤系統 ================= */
+        let activeInput = null;
+        let isKeypadOpen = false;
+
+        document.addEventListener('focus', function(e) {
+            if (e.target.tagName === 'INPUT' && (e.target.type === 'number' || e.target.type === 'text')) {
+                activeInput = e.target;
+            }
+        }, true);
+
+        function toggleKeypad() {
+            isKeypadOpen = !isKeypadOpen;
+            document.getElementById('virtualKeypad').style.display = isKeypadOpen ? 'grid' : 'none';
+        }
+
+        function keypadInput(char) {
+            if (!activeInput) {
+                const inputs = document.querySelectorAll('.screen.active input[type="number"], .screen.active input[type="text"]');
+                if(inputs.length > 0) {
+                    activeInput = inputs[0];
+                    activeInput.focus();
+                } else return;
+            }
+            activeInput.value += char;
+            activeInput.dispatchEvent(new Event('input'));
+        }
+
+        function keypadAction(action) {
+            if (action === 'del') {
+                if (activeInput) {
+                    activeInput.value = activeInput.value.slice(0, -1);
+                    activeInput.dispatchEvent(new Event('input'));
+                }
+            } else if (action === 'enter') {
+                if(currentLevel <= 10) {
+                    let type = gameConfig.sequence[currentLevel - 1];
+                    if(type === 1) checkType1();
+                    else if(type === 2) checkType2();
+                    else if(type === 3) checkType3();
+                    else if(type === 4) checkType4({type: 'keyup', key: 'Enter'});
+                    else if(type === 5) checkType5();
+                }
+            }
+        }
+
+        /* ================= 計時器系統 ================= */
+        function startTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 300;
+            updateTimerUI();
+            
+            timerInterval = setInterval(() => {
+                if(isPaused) return; 
+                
+                timeLeft--;
+                updateTimerUI();
+                
+                if(timeLeft <= 0) {
+                    finishGame(true);
+                }
+            }, 1000);
+        }
+
+        function updateTimerUI() {
+            let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            let s = (timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById('timerDisplay').innerText = `${m}:${s}`;
+        }
+
+        /* ================= 動態無限題庫產生器 ================= */
+        function getSessionTheme(typeStr, sourceArr) {
+            if (!window.sessionThemes[typeStr] || window.sessionThemes[typeStr].length === 0) {
+                window.sessionThemes[typeStr] = shuffleArray([...sourceArr]);
+            }
+            return window.sessionThemes[typeStr].pop();
+        }
+
+        function generateQuestion(type) {
+            const niceTotals = [10, 20, 25, 40, 50, 100, 120, 150, 200, 250, 300, 400, 500, 800, 1000];
+            const gridTotals = [10, 20, 25, 40, 50, 100];
+            
+            if (type === 1) {
+                let T = rand(niceTotals);
+                let targetP = rand([10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 75, 80, 85, 90]);
+                let P = Math.round(T * targetP / 100);
+                if (P === 0) P = 1; 
+                if (P >= T) P = T - 1;
+                let ans = Math.round((P / T) * 100); 
+                let N = T - P;
+                return { T, P, N, ans, trap: rand(['normal', 'complement']), theme: getSessionTheme('t1', themesT1) };
+            }
+            else if (type === 2) {
+                let T = rand(gridTotals);
+                let C = Math.floor(Math.random() * (T - 1)) + 1;
+                let ansPercent = Math.round((C / T) * 100);
+                return { T, C, ansPercent, theme: getSessionTheme('t2', themesT2) };
+            }
+            else if (type === 3) {
+                let T = rand(niceTotals);
+                let percBase = Math.floor(Math.random() * 19 + 1) * 5; 
+                let P = Math.round((T * percBase) / 100);
+                if(P === 0 || P >= T) { P = Math.floor(T/2); }
+                let I = T - P;
+                let g = gcd(P, T);
+                return { 
+                    T, p: P, i: I, 
+                    num: P / g, den: T / g, 
+                    perc: Math.round((P / T) * 100),
+                    trap: rand(['normal', 'totalGiven']), theme: getSessionTheme('t3', themesT3)
+                };
+            }
+            else if (type === 4) {
+                let arr = [];
+                for(let j=0; j<5; j++) {
+                    let qType = rand(['P2D', 'D2P', 'F2P', 'P2F', 'D2F', 'F2D']);
+                    let dens = [2, 4, 5, 8, 10, 20, 25, 40, 50, 100, 3, 6, 7];
+                    let den = rand(dens);
+                    let num = Math.floor(Math.random()*(den-1)) + 1;
+                    let _g = gcd(num, den);
+                    num /= _g; den /= _g;
+
+                    let isExact = (10000 % den === 0);
+                    let dec, decStr, percStr;
+
+                    if (isExact) {
+                        dec = num / den;
+                        decStr = String(Number(dec.toFixed(4)));
+                        percStr = String(Number((dec * 100).toFixed(2)));
+                    } else {
+                        dec = Math.round((num / den) * 100) / 100;
+                        decStr = String(dec);
+                        percStr = String(Math.round((num / den) * 100));
+                    }
+
+                    let needsRounding = !isExact;
+                    let modeTitle = "", qHtml = "", ansHtml = "", reqFrac = false;
+                    let ansVal = null, ansNum = null, ansDen = null;
+                    let formatHtmlFrac = (n, d) => `<span class="frac-inline"><span>${n}</span><span>${d}</span></span>`;
+
+                    switch(qType) {
+                        case 'P2D': modeTitle = "百分率 轉換為 小數"; qHtml = `${percStr}%`; ansHtml = decStr; ansVal = parseFloat(decStr); break;
+                        case 'D2P': modeTitle = "小數 轉換為 百分率"; qHtml = decStr; ansHtml = `${percStr}%`; ansVal = parseFloat(percStr); break;
+                        case 'F2P': modeTitle = "分數 轉換為 百分率"; qHtml = formatHtmlFrac(num, den); ansHtml = `${percStr}%`; ansVal = parseFloat(percStr); break;
+                        case 'P2F': modeTitle = "百分率 轉換為 分數"; qHtml = `${percStr}%`; ansHtml = formatHtmlFrac(num, den); reqFrac = true; ansNum = num; ansDen = den; break;
+                        case 'D2F': modeTitle = "小數 轉換為 分數"; qHtml = decStr; ansHtml = formatHtmlFrac(num, den); reqFrac = true; ansNum = num; ansDen = den; break;
+                        case 'F2D': modeTitle = "分數 轉換為 小數"; qHtml = formatHtmlFrac(num, den); ansHtml = decStr; ansVal = parseFloat(decStr); break;
+                    }
+                    arr.push({ type: qType, modeTitle, qHtml, ansHtml, reqFrac, ansNum, ansDen, ansVal, needsRounding });
+                }
+                return { arr };
+            }
+            else if (type === 5) {
+                let zonesCount = rand([3, 4]);
+                let zones = [];
+                for(let z=0; z<zonesCount; z++){
+                    let T = rand(niceTotals);
+                    let a = Math.floor(Math.random() * 15 + 5) * 5;
+                    let n = Math.round((T * a) / 100);
+                    a = Math.round((n / T) * 100);
+                    zones.push({ name: String.fromCharCode(65+z), n: n, t: T, a: a });
+                }
+                let maxA = Math.max(...zones.map(z => z.a));
+                zones.forEach(z => z.isMax = (z.a === maxA));
+                return { zones: zones, theme: getSessionTheme('t5', themesT5) };
+            }
+        }
+
+        /* ================= 排行榜系統 ================= */
+        // 使用全新的 key 以確保初始是空白的
+        const LB_KEY = 'matrixLeaderboardG10_inf'; 
+
+        function renderLeaderboard() {
+            let data = JSON.parse(localStorage.getItem(LB_KEY)) || [];
+            const tbody = document.querySelector('#leaderboardTable tbody');
+            tbody.innerHTML = "";
+            
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#aaa; padding:20px;">尚無特工紀錄，搶先成為第一名吧！</td></tr>`;
+                return;
+            }
+
+            data.sort((a, b) => b.score - a.score);
+            for (let i = 0; i < Math.min(5, data.length); i++) {
+                let icon = "";
+                if (i === 0) icon = "🥇"; else if (i === 1) icon = "🥈"; else if (i === 2) icon = "🥉";
+                else icon = `<span style="display:inline-block; width:22px; text-align:center; background:#444; border-radius:50%; font-size:12px;">${i+1}</span>`;
+                
+                tbody.innerHTML += `
+                    <tr>
+                        <td><span class="rank-icon">${icon}</span></td>
+                        <td>${data[i].name}</td>
+                        <td>${data[i].score}/${data[i].max}</td>
+                        <td style="color:${data[i].status==='完美'?'#00ffff':(data[i].status==='優秀'?'#ffd700':(data[i].status==='過關'?'#55ff55':'#ccc'))}">${data[i].status}</td>
+                        <td style="font-size:0.85em">${data[i].date}</td>
+                    </tr>
+                `;
+            }
+        }
+
+        function saveScore() {
+            let data = JSON.parse(localStorage.getItem(LB_KEY)) || [];
+            const status = score >= 900 ? "完美" : (score >= 700 ? "優秀" : (score >= 500 ? "過關" : "失敗"));
+            const d = new Date();
+            data.push({
+                name: playerName, score: score, max: 1000, status: status,
+                date: `${d.getFullYear()}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getDate().toString().padStart(2,'0')} ${d.getHours()}:${d.getMinutes()}`
+            });
+            localStorage.setItem(LB_KEY, JSON.stringify(data));
+        }
+
+        /* ================= 遊戲流程控制 ================= */
+        function switchScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            document.getElementById('gameControls').style.display = screenId === 'screen-game' ? 'flex' : 'none';
+        }
+
+        function startGame() {
+            playerName = document.getElementById('playerName').value.trim();
+            if (!playerName) { 
+                triggerPanelEffect('error-shake', 500); // 觸發震動特效
+                alert("系統警告：必須輸入特工代號！"); 
+                return; 
+            }
+            
+            // 嘗試播放背景音樂
+            const bgm = document.getElementById('bgMusic');
+            if (soundEnabled) {
+                bgm.play().catch(e => console.log('BGM Playback prevented by browser'));
+            }
+
+            score = 0;
+            currentLevel = 1;
+            document.getElementById('correctIconsDisplay').innerHTML = ""; 
+            
+            let group1 = shuffleArray([1, 2, 3, 4, 5]);
+            let group2 = shuffleArray([1, 2, 3, 4, 5]);
+            gameConfig.sequence = group1.concat(group2);
+            
+            // 初始化本次挑戰的主題洗牌庫以確保不重複，用完才重洗
+            window.sessionThemes = {
+                t1: shuffleArray([...themesT1]),
+                t2: shuffleArray([...themesT2]),
+                t3: shuffleArray([...themesT3]),
+                t5: shuffleArray([...themesT5])
+            };
+
+            switchScreen('screen-game');
+            startTimer();
+            loadLevel();
+        }
+
+        function restartGame() {
+            if(confirm("確定要放棄當前進度重來嗎？")) { startGame(); }
+        }
+
+        function goToMenu() {
+            switchScreen('screen-login');
+            renderLeaderboard();
+        }
+
+        function togglePause() {
+            isPaused = !isPaused;
+            document.getElementById('pauseOverlay').style.display = isPaused ? 'flex' : 'none';
+        }
+
+        /* ================= 白板功能 ================= */
+        const canvas = document.getElementById('whiteboard-canvas');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        document.addEventListener('mousedown', (e) => {
+            if(!isWhiteboardOn) return;
+            const isInteractive = e.target.closest('input, button, select, .zone-card, .grid-cell, a, .sound-toggle, .keypad-btn, .keypad-close');
+            if(isInteractive) {
+                drawing = false;
+                return;
+            }
+            drawing = true;
+            ctx.beginPath();
+            ctx.moveTo(e.clientX, e.clientY);
+        });
+
+        document.addEventListener('mouseup', () => { 
+            drawing = false; 
+            ctx.beginPath(); 
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if(!drawing || !isWhiteboardOn) return;
+            ctx.lineWidth = 3; 
+            ctx.lineCap = "round"; 
+            ctx.strokeStyle = "#00ffff";
+            ctx.lineTo(e.clientX, e.clientY); 
+            ctx.stroke(); 
+            ctx.beginPath(); 
+            ctx.moveTo(e.clientX, e.clientY);
+        });
+
+        function toggleWhiteboard() {
+            isWhiteboardOn = !isWhiteboardOn;
+            canvas.style.display = isWhiteboardOn ? 'block' : 'none';
+            if (isWhiteboardOn) {
+                document.body.classList.add('whiteboard-active');
+            } else {
+                document.body.classList.remove('whiteboard-active');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        /* ================= 回饋系統與關卡載入 ================= */
+        const contentDiv = document.getElementById('level-content');
+
+        function loadLevel() {
+            if (currentLevel > 10) {
+                finishGame(false);
+                return;
+            }
+
+            let type = gameConfig.sequence[currentLevel - 1];
+            let qData = generateQuestion(type); 
+            window.currentQuestionData = qData;
+            
+            switch(type) {
+                case 1: renderType1(qData); break;
+                case 2: renderType2(qData); break;
+                case 3: renderType3(qData); break;
+                case 4: renderType4(qData); break;
+                case 5: renderType5(qData); break;
+            }
+        }
+
+        function handleLevelResult(isComplete, isPerfect, correctText, pts) {
+            const overlay = document.getElementById('feedbackOverlay');
+            const title = document.getElementById('fb-title');
+            const desc = document.getElementById('fb-desc');
+            const btn = document.getElementById('fb-btn');
+
+            overlay.style.display = 'flex';
+            score += pts;
+
+            if(pts === 100) {
+                triggerPanelEffect('success-pulse', 800); // 觸發成功發光特效
+                document.getElementById('correctIconsDisplay').innerHTML += '🌟';
+                
+                title.innerText = "淨化成功！";
+                title.style.color = "#00ffff";
+                desc.innerHTML = `獲得能量 100 點。<br>準備進入下一防線...`;
+                btn.style.display = 'none';
+                playSound('success');
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    currentLevel++;
+                    loadLevel();
+                }, 1500);
+            } else if (pts > 0) {
+                triggerPanelEffect('error-shake', 500); // 觸發震動特效
+                title.innerText = "部分成功";
+                title.style.color = "#ffd700";
+                desc.innerHTML = `獲得能量 ${pts} 點。<br><br><span style="font-size:0.8em;color:#bbb;">系統解析正確答案：</span><br><div style="color:#fff; font-size:1.1em; line-height:1.4; font-weight:bold; margin-top:10px;">${correctText}</div>`;
+                btn.style.display = 'inline-block';
+                btn.innerText = "確認並繼續下一題 (按 Enter)";
+                playSound('error');
+                btn.onclick = () => {
+                    overlay.style.display = 'none';
+                    currentLevel++;
+                    loadLevel();
+                };
+            } else {
+                triggerPanelEffect('error-shake', 500); // 觸發震動特效
+                title.innerText = "驗證失敗！";
+                title.style.color = "#ff0055";
+                desc.innerHTML = `獲得能量 0 點。<br><br><span style="font-size:0.8em;color:#bbb;">系統解析正確答案：</span><br><div style="color:#fff; font-size:1.1em; line-height:1.4; font-weight:bold; margin-top:10px;">${correctText}</div>`;
+                btn.style.display = 'inline-block';
+                btn.innerText = "確認並繼續下一題 (按 Enter)";
+                playSound('error');
+                btn.onclick = () => {
+                    overlay.style.display = 'none';
+                    currentLevel++;
+                    loadLevel();
+                };
+            }
+        }
+
+        // 類型 1：多重情境比率判定
+        function renderType1(q) {
+            let descText = "";
+            let opts = [];
+            let theme = q.theme;
+            
+            if (q.trap === 'complement') {
+                descText = `【${theme.title}】<br>${theme.T_name}有 ${q.T} ${theme.unit}，其中「<strong>${theme.N_name}</strong>」為 ${q.N} ${theme.unit}。<br>請推算${theme.P_name}數量，並選出「<strong>${theme.P_name}占總數</strong>」的算式，再調整滑桿至正確百分率。`;
+                opts = [
+                    `<option value="wrong">${q.T} ÷ ${q.P}</option>`,
+                    `<option value="correct">${q.P} ÷ ${q.T}</option>`,
+                    `<option value="trap">${q.N} ÷ ${q.T}</option>`
+                ];
+            } else {
+                descText = `【${theme.title}】<br>${theme.T_name}有 ${q.T} ${theme.unit}，其中${theme.P_name}為 ${q.P} ${theme.unit}。<br>請找出「${theme.P_name}占總數」的正確算式，並調整滑桿至正確百分率。`;
+                opts = [
+                    `<option value="wrong">${q.T} ÷ ${q.P}</option>`,
+                    `<option value="correct">${q.P} ÷ ${q.T}</option>`,
+                    `<option value="wrong2">${q.P} × ${q.T}</option>`
+                ];
+            }
+            opts = shuffleArray(opts);
+
+            contentDiv.innerHTML = `
+                <div class="task-title" style="font-size: 1.6em;">第 ${currentLevel} 關 / 共 10 關 - ${theme.title}</div>
+                <p style="font-size: 1.3em; line-height: 1.5;">${descText}</p>
+                <div style="margin-top: auto; margin-bottom: 20px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                    <select id="l1-select" style="padding:10px; font-size:1.2em; background:#222; color:#fff; border-radius:8px; width: 80%; max-width: 400px;">
+                        <option value="">選擇算式...</option>
+                        ${opts.join('')}
+                    </select>
+                    <div style="width: 80%; max-width: 500px; text-align: center;">
+                        <input type="range" id="l1-slider" min="0" max="100" value="0" style="width:100%" oninput="document.getElementById('l1-val').innerText = this.value + '%'">
+                        <div style="font-size: 2.2em; color:#00ffff; margin-top:10px;" id="l1-val">0%</div>
+                    </div>
+                    <button class="btn-sci-fi" style="width:auto; padding: 12px 50px; font-size: 1.2em;" onclick="checkType1()">送出答案</button>
+                </div>
+            `;
+        }
+        function checkType1() {
+            const q = window.currentQuestionData;
+            const uSelect = document.getElementById('l1-select').value;
+            const uSlider = parseInt(document.getElementById('l1-slider').value);
+            
+            let pts = 0;
+            if (uSelect === 'correct') pts += 50;
+            if (uSlider === q.ans) pts += 50;
+            
+            if(pts === 100) {
+                handleLevelResult(true, true, "", 100);
+            } else {
+                handleLevelResult(true, false, `正確算式應為: ${q.P} ÷ ${q.T}<br>百分率應為: ${q.ans}%`, pts);
+            }
+        }
+
+        // 類型 2：網格覆蓋率 
+        function renderType2(q) {
+            let cols = 10;
+            if(q.T === 10 || q.T === 20 || q.T === 25) cols = 5;
+            else if(q.T === 40) cols = 8;
+            else if(q.T === 50) cols = 10;
+            let theme = q.theme;
+
+            let cellsHTML = '';
+            for(let i=0; i<q.T; i++) {
+                cellsHTML += `<div class="grid-cell" id="c${i}" onmouseenter="if(event.buttons===1) lightUp(${i}, ${q.T})" onmousedown="lightUp(${i}, ${q.T})"></div>`;
+            }
+            
+            contentDiv.innerHTML = `
+                <div class="task-title">第 ${currentLevel} 關 / 共 10 關 - ${theme.title}</div>
+                <p style="margin: 10px 0; font-size:1.1em;">總共 ${q.T} 個區塊，點擊/拖拉點亮 <strong>${q.C}</strong> 格${theme.desc}，輸入佔總數百分率。</p>
+                <div class="grid-dynamic" style="grid-template-columns: repeat(${cols}, 30px); margin:10px auto;">${cellsHTML}</div>
+                
+                <div style="margin-top: auto; margin-bottom: 20px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                    <div class="input-group" style="width:60%; max-width: 400px; margin:0 auto;">
+                        <input type="number" id="l2-input" placeholder="輸入百分率數字 (不用加%)" style="padding: 10px; font-size: 1.1em;">
+                    </div>
+                    <div class="energy-bar" style="width: 80%; max-width: 500px; margin: 0 auto;"><div class="energy-fill" id="l2-bar"></div></div>
+                    <button class="btn-sci-fi" style="width:auto; padding: 12px 50px; font-size: 1.1em;" onclick="checkType2()">送出答案</button>
+                </div>
+            `;
+            window.litCount = 0;
+        }
+        function lightUp(i, total) {
+            const el = document.getElementById('c'+i);
+            if(el.classList.contains('active')) {
+                el.classList.remove('active');
+                window.litCount--;
+            } else {
+                el.classList.add('active');
+                window.litCount++;
+            }
+            document.getElementById('l2-bar').style.width = (window.litCount / total * 100) + '%';
+        }
+        function checkType2() {
+            const q = window.currentQuestionData;
+            let pts = 0;
+            
+            if(window.litCount === q.C) pts += 50;
+            let inputVal = parseInt(document.getElementById('l2-input').value);
+            if (!isNaN(inputVal) && inputVal === q.ansPercent) pts += 50;
+
+            if(pts === 100) {
+                handleLevelResult(true, true, "", 100);
+            } else {
+                handleLevelResult(true, false, `應塗色: ${q.C} 格<br>正確百分率: ${q.ansPercent}%`, pts);
+            }
+        }
+
+        // 類型 3：混合配方室
+        function renderType3(q) {
+            let topVisual = "";
+            let desc = "";
+            let theme = q.theme;
+
+            if (q.trap === 'totalGiven') {
+                desc = `【${theme.title}】<br>${theme.t_name}為 ${q.T} ${theme.unit}，其中${theme.i_name}佔 ${q.i} ${theme.unit}。<br>推算${theme.p_name}數量，計算「${theme.p_name}」占整體的「最簡分數」與「百分率」。`;
+                topVisual = `
+                    <div class="crystal pure" style="font-size:0.85em;">${theme.p_name}<br><span style="font-size:1.3em">?</span></div>
+                    <div style="font-size:1.5em; align-self:center;">+</div>
+                    <div class="crystal impure" style="font-size:0.85em;">${theme.i_name}<br><span style="font-size:1.3em">${q.i}</span></div>
+                    <div style="font-size:1.5em; align-self:center;">=</div>
+                    <div class="crystal total" style="font-size:0.85em;">${theme.t_name}<br><span style="font-size:1.3em">${q.T}</span></div>
+                `;
+            } else {
+                desc = `【${theme.title}】<br>${theme.p_name} ${q.p} ${theme.unit}，${theme.i_name} ${q.i} ${theme.unit}。<br>請計算${theme.p_name}占「整體總量」的「最簡分數」與「百分率」。`;
+                topVisual = `
+                    <div class="crystal pure" style="font-size:0.85em;">${theme.p_name}<br><span style="font-size:1.3em">${q.p}</span></div>
+                    <div style="font-size:1.5em; align-self:center;">&</div>
+                    <div class="crystal impure" style="font-size:0.85em;">${theme.i_name}<br><span style="font-size:1.3em">${q.i}</span></div>
+                `;
+            }
+
+            contentDiv.innerHTML = `
+                <div class="task-title" style="font-size: 1.6em;">第 ${currentLevel} 關 / 共 10 關 - ${theme.title}</div>
+                <p style="font-size: 1.3em; line-height: 1.4;">${desc}</p>
+                <div class="crystal-area" style="gap: 25px; margin: 20px 0; transform: scale(1.2);">
+                    ${topVisual}
+                </div>
+                <div style="margin-top: auto; margin-bottom: 20px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                    <div style="color:#ff0055; font-weight:bold; font-size:1.1em; margin-bottom:-10px;">⚠️ 提醒：分數請化為「最簡分數」</div>
+                    <div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+                        <div class="fraction-input-group" style="transform: scale(1.3);">
+                            <input type="number" id="l3-num" placeholder="最簡分子">
+                            <hr style="margin:5px 0;">
+                            <input type="number" id="l3-den" placeholder="最簡分母">
+                        </div>
+                        <span style="font-size:2em; color:white;">=</span>
+                        <div style="transform: scale(1.3);">
+                            <input type="number" id="l3-perc" placeholder="%" style="width:80px; padding:10px; font-size:1.1em; text-align:center; background:#222; color:#00ffff; border:1px solid #00ffff; border-radius:5px;">
+                            <span style="font-size:1.2em; margin-left:5px;">%</span>
+                        </div>
+                    </div>
+                    <button class="btn-sci-fi" style="width:auto; padding: 12px 50px; font-size: 1.2em;" onclick="checkType3()">送出答案</button>
+                </div>
+            `;
+        }
+        function checkType3() {
+            const q = window.currentQuestionData;
+            const num = parseInt(document.getElementById('l3-num').value);
+            const den = parseInt(document.getElementById('l3-den').value);
+            const perc = parseInt(document.getElementById('l3-perc').value);
+            
+            let pts = 0;
+            if(num === q.num && den === q.den) pts += 50;
+            if(perc === q.perc) pts += 50;
+
+            if(pts === 100) {
+                handleLevelResult(true, true, "", 100);
+            } else {
+                handleLevelResult(true, false, `最簡分數: <span class="frac-inline"><span>${q.num}</span><span>${q.den}</span></span><br>百分率: ${q.perc}%`, pts);
+            }
+        }
+
+        // 類型 4：極速光譜轉換 
+        function renderType4(q) {
+            window.l4Questions = q.arr;
+            window.l4Current = 0;
+            window.l4SubScore = 0;
+            window.l4Summary = [];
+            
+            contentDiv.innerHTML = `
+                <div class="task-title" style="font-size:1.5em;">第 ${currentLevel} 關 / 共 10 關 - 極速光譜轉換</div>
+                <p style="margin:5px 0; font-size:1.1em;">快速轉換格式，連續 5 題！ (可使用小鍵盤輸入並點擊 Enter 送出)</p>
+                
+                <div id="l4-mode" style="color:#f39c12; font-weight:bold; font-size:1.2em; margin-top:10px;"></div>
+                <div style="font-size:2.2em; font-weight:bold; color:#00ffff; margin:10px 0; display:flex; align-items:center; justify-content:center; gap:10px;" id="l4-num">--</div>
+                <div id="l4-rounding" class="rounding-hint" style="min-height:18px;"></div>
+
+                <div style="margin-top: auto; margin-bottom: 20px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                    <div class="input-group" id="l4-input-container" style="width:60%; max-width:400px; margin: 0 auto; min-height:80px;">
+                    </div>
+                    <button class="btn-sci-fi" style="width: auto; padding: 12px 50px; font-size: 1.1em;" onclick="checkType4()">送出答案</button>
+                    <div id="l4-feedback-mini" style="font-size: 1.2em; min-height: 25px; margin-bottom:5px; font-weight:bold;"></div>
+                    <div style="color:#aaa; font-size:1em;">進度: <span id="l4-prog">1 / 5</span></div>
+                </div>
+            `;
+            
+            updateType4UI();
+        }
+        function updateType4UI() {
+            const subQ = window.l4Questions[window.l4Current];
+            document.getElementById('l4-mode').innerText = `【 ${subQ.modeTitle} 】`;
+            
+            let questionDisplayHtml = subQ.qHtml;
+            if (subQ.type.includes('2P')) {
+                questionDisplayHtml += ` <span style="color:#fff; font-size: 0.8em;">= ? %</span>`;
+            } else {
+                questionDisplayHtml += ` <span style="color:#fff; font-size: 0.8em;">= ?</span>`;
+            }
+            document.getElementById('l4-num').innerHTML = questionDisplayHtml;
+            
+            document.getElementById('l4-prog').innerText = `${window.l4Current + 1} / 5`;
+            
+            const roundHint = document.getElementById('l4-rounding');
+            if(subQ.needsRounding && (subQ.type === 'F2D' || subQ.type === 'F2P')) {
+                roundHint.innerText = "(*無法整除，依規定四捨五入取概數至小數第二位*)";
+            } else {
+                roundHint.innerText = "";
+            }
+            
+            const inputContainer = document.getElementById('l4-input-container');
+            if (subQ.reqFrac) {
+                inputContainer.innerHTML = `
+                    <div style="color:#ff0055; font-weight:bold; font-size:0.9em; margin-bottom:15px; width:100%; text-align:center;">⚠️ 提醒：請化為「最簡分數」</div>
+                    <div class="fraction-input-group" style="margin: 0 auto; transform: scale(1.2);">
+                        <input type="number" id="l4-num-in" placeholder="最簡分子" style="padding: 5px; font-size: 1em;" onkeyup="checkType4(event)">
+                        <hr style="margin:5px 0;">
+                        <input type="number" id="l4-den-in" placeholder="最簡分母" style="padding: 5px; font-size: 1em;" onkeyup="checkType4(event)">
+                    </div>
+                `;
+                setTimeout(() => { let el = document.getElementById('l4-num-in'); if(el) el.focus(); }, 100);
+            } else {
+                inputContainer.innerHTML = `
+                    <input type="number" step="any" id="l4-input" placeholder="請輸入數值..." style="padding: 10px; font-size: 1.2em;" onkeyup="checkType4(event)">
+                `;
+                setTimeout(() => { let el = document.getElementById('l4-input'); if(el) el.focus(); }, 100);
+            }
+        }
+        function checkType4(e) {
+            if(e && e.type === 'keyup' && e.key !== 'Enter') return;
+            
+            const subQ = window.l4Questions[window.l4Current];
+            let isCorrect = false;
+
+            if (subQ.reqFrac) {
+                let uNumInput = document.getElementById('l4-num-in');
+                let uDenInput = document.getElementById('l4-den-in');
+                if(!uNumInput || !uDenInput) return; 
+                let uNum = uNumInput.value.trim();
+                let uDen = uDenInput.value.trim();
+                if (uNum === '' || uDen === '') return;
+                
+                uNumInput.disabled = true;
+                uDenInput.disabled = true;
+                isCorrect = (parseInt(uNum) === subQ.ansNum && parseInt(uDen) === subQ.ansDen);
+            } else {
+                let uInput = document.getElementById('l4-input');
+                if(!uInput) return; 
+                let uValStr = uInput.value.trim();
+                if (uValStr === '') return;
+                
+                uInput.disabled = true;
+                isCorrect = (parseFloat(uValStr) === subQ.ansVal);
+            }
+
+            const fbMini = document.getElementById('l4-feedback-mini');
+
+            if(isCorrect) {
+                playSound('success');
+                window.l4SubScore += 20;
+                fbMini.style.color = "#00ffff";
+                fbMini.innerText = "精準打擊！ (+20分)";
+            } else {
+                triggerPanelEffect('error-shake', 500); // 讓小關卡錯誤也會震動提示
+                playSound('error');
+                fbMini.style.color = "#ff0055";
+                fbMini.innerHTML = `錯誤！正解為: ${subQ.ansHtml}`;
+            }
+
+            let summaryLine = `Q${window.l4Current + 1}: ${subQ.qHtml} = ${subQ.ansHtml}`;
+            window.l4Summary.push(summaryLine);
+
+            window.l4Current++;
+            setTimeout(() => {
+                fbMini.innerText = "";
+                
+                if(window.l4Current >= window.l4Questions.length) {
+                    if(window.l4SubScore === 100) {
+                        handleLevelResult(true, true, "", 100);
+                    } else {
+                        let ansDump = window.l4Summary.join('<br><br>');
+                        handleLevelResult(true, false, ansDump, window.l4SubScore);
+                    }
+                } else {
+                    updateType4UI();
+                }
+            }, 1000);
+        }
+
+        // 類型 5：多區域分析防禦
+        function renderType5(q) {
+            let theme = q.theme;
+            
+            let cols = q.zones.length === 3 ? 3 : 2; 
+            let gridStyle = `display: grid; grid-template-columns: repeat(${cols}, 1fr); gap: 15px; width: 95%; max-width: 800px; margin: 10px auto;`;
+            
+            let html = `<div style="${gridStyle}">`;
+            q.zones.forEach((z, i) => {
+                html += `
+                    <div class="zone-card" id="z${i}" onclick="toggleZone('z${i}')" style="padding: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <h3 style="font-size: 1.25em; margin-top: 5px; margin-bottom: 5px;">${z.name}${theme.z_name}</h3>
+                        <p style="font-size: 1.05em; line-height: 1.3; margin-bottom: 10px; margin-top: 0;">${theme.n_name}: ${z.n}<br>總量: ${z.t}</p>
+                        <div>
+                            <input type="number" id="i${i}" placeholder="%?" style="width:70px; padding: 8px; font-size: 1.1em; background:#222; color:#fff; text-align:center; border: 1px solid #777; border-radius: 5px;" onclick="event.stopPropagation()"> %
+                        </div>
+                    </div>`;
+            });
+            html += '</div>';
+
+            contentDiv.innerHTML = `
+                <div class="task-title" style="color:#ff00ff; text-shadow:0 0 10px #ff00ff; font-size: 1.5em; margin-bottom: 5px;">第 ${currentLevel} 關 / 共 10 關 - ${theme.title}</div>
+                <p style="font-size: 1.2em; margin: 5px 0; line-height: 1.4;">計算各${theme.z_name}的${theme.prop}。<br>請點選${theme.desc}！<br><span style="font-size:0.7em;color:#aaa;">(注意重點為比率最高，非數量最大)</span></p>
+                
+                ${html}
+                
+                <div style="margin-top: auto; margin-bottom: 15px;">
+                    <button class="btn-sci-fi" style="width:auto; padding: 10px 50px; font-size: 1.2em; background:linear-gradient(45deg, #ff0000, #ff00ff);" onclick="checkType5()">送出答案</button>
+                </div>
+            `;
+        }
+        function toggleZone(id) {
+            document.getElementById(id).classList.toggle('selected');
+        }
+        function checkType5() {
+            const q = window.currentQuestionData;
+            let theme = q.theme;
+            let pts = 0;
+            let percentPts = 0;
+            let selectionCorrect = true;
+            
+            let eachPercentVal = 50 / q.zones.length;
+            
+            q.zones.forEach((z, i) => {
+                let uVal = parseInt(document.getElementById(`i${i}`).value);
+                let isSelected = document.getElementById(`z${i}`).classList.contains('selected');
+                
+                if (uVal === z.a) {
+                    percentPts += eachPercentVal;
+                }
+                
+                if (isSelected !== z.isMax) {
+                    selectionCorrect = false;
+                }
+            });
+
+            pts = Math.round(percentPts) + (selectionCorrect ? 50 : 0);
+
+            if(pts === 100) {
+                handleLevelResult(true, true, "", 100);
+            } else {
+                let correctText = `各${theme.z_name}數值與解答：<br>`;
+                q.zones.forEach(z => { correctText += `${z.name}${theme.z_name}: ${z.a}%<br>`; });
+                let maxNames = q.zones.filter(z => z.isMax).map(z => z.name).join(' 與 ');
+                correctText += `<br><span style="color:#ffd700;">正確選取應為：${maxNames}${theme.z_name}</span>`;
+                handleLevelResult(true, false, correctText, pts);
+            }
+        }
+
+        /* ================= 遊戲結束 (結算畫面) ================= */
+        function finishGame(isTimeOut = false) {
+            clearInterval(timerInterval); // 停止計時
+            saveScore();
+            
+            const title = document.getElementById('resultTitle');
+            const scoreText = document.getElementById('finalScoreText');
+            const content = document.getElementById('resultContent');
+            const btns = document.getElementById('resultButtons');
+            
+            scoreText.innerText = `特工 ${playerName} 獲得總結能量 ${score} 點 / 滿分 1000 點`;
+            
+            if (score >= 500) {
+                title.innerText = "任務成功！";
+                title.style.color = "#00ffff";
+                content.innerHTML = `
+                    <p style="margin: 10px 0;">恭喜特工！系統紀錄已保存。</p>
+                    <img src="18.jpg" alt="過關徽章" class="badge-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'120\\\' height=\\\'120\\\'><circle cx=\\\'60\\\' cy=\\\'60\\\' r=\\\'55\\\' fill=\\\'#ffd700\\\'/><text x=\\\'50%\\\' y=\\\'50%\\\' fill=\\\'black\\\' font-size=\\\'24\\\' font-family=\\\'sans-serif\\\' text-anchor=\\\'middle\\\' dy=\\\'.3em\\\'>徽章18</text></svg>'">
+                `;
+                btns.innerHTML = `<button class="btn-sci-fi" style="width: auto;" onclick="goToMenu()">返回指揮中心</button>`;
+            } else {
+                title.innerText = isTimeOut ? "時間耗盡！" : "任務失敗！";
+                title.style.color = "#ff0055";
+                
+                const quotes = [
+                    "「失敗是成功之母，特工，重新整理裝備再來一次吧！」",
+                    "「母體的防禦很強，但你的潛力無可限量，不要放棄！」",
+                    "「數學的真理需要耐心去發掘，再試一次，你能做到的！」",
+                    "「這次的失誤是下次精準打擊的墊腳石，加油！」",
+                    "「只要不放棄，下一次就是你的勝利！」"
+                ];
+                let randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+                
+                content.innerHTML = `<p style="color: #ffaa00; font-size: 1.1em; margin: 15px 0;">${randomQuote}</p>`;
+                btns.innerHTML = `
+                    <button class="btn-sci-fi" style="width: auto; background: linear-gradient(45deg, #ff0055, #ff00ff);" onclick="startGame()">再挑戰一次</button>
+                    <button class="btn-sci-fi" style="width: auto; background: linear-gradient(45deg, #555, #888);" onclick="goToMenu()">回主選單</button>
+                `;
+            }
+
+            switchScreen('screen-result');
+        }
+
+        // 初始化
+        window.onload = () => {
+            renderLeaderboard();
+        };
+
+    </script>
+</body>
+</html>
